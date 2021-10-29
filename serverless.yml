@@ -1,0 +1,57 @@
+service: bus-service
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: dev
+  region: us-east-1
+  memorySize: 512
+
+functions:
+  busFunc:
+    handler: index.handler
+    events:
+      - http:
+          path: bus
+          method: get
+      - http:
+          path: bus/{id}
+          method: get
+      - http:
+          path: bus
+          method: post
+      - http:
+          path: bus/{id}
+          method: put
+      - http:
+          path: bus/{id}
+          method: delete
+      
+      # - http:
+      #     path: route
+      #     method: get
+      # - http:
+      #     path: route/{id}
+      #     method: get
+      # - http:
+      #     path: route
+      #     method: post
+      # - http:
+      #     path: route/{id}
+      #     method: delete
+      
+      # - http:
+      #     path: stop
+      #     method: get
+      # - http:
+      #     path: stop/{id}
+      #     method: get
+      # - http:
+      #     path: stop
+      #     method: post
+      # - http:
+      #     path: stop/{id}
+      #     method: delete
+
+plugins:
+  - serverless-offline
