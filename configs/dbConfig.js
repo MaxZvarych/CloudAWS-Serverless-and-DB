@@ -2,7 +2,7 @@ const mysql = require("mysql");
 const pool = mysql.createPool({
   host: "localhost",
   user: "root",
-  password: "Max0993319943",
+  password: "****",
   database: "masyanya-vpc-db",
 });
 
