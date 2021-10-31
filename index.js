@@ -9,7 +9,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Handle bus GET route for all buses
-app.get("/bus/", (req, res) => {
+
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
+app.get("/bus/", (req, res, next) => {
   const query = "SELECT * FROM bus";
   pool.query(query, (err, results, fields) => {
     if (err) {
@@ -27,7 +37,7 @@ app.get("/bus/", (req, res) => {
 });
 
 // Handle bus GET route for specific bus
-app.get("/bus/:id", (req, res) => {
+app.get("/bus/:id", (req, res, next) => {
   const id = req.params.id;
   const query = `SELECT * FROM bus WHERE id=${id}`;
   pool.query(query, (err, results, fields) => {
@@ -46,7 +56,7 @@ app.get("/bus/:id", (req, res) => {
 });
 
 // Handle bus POST route
-app.post("/bus/", (req, res) => {
+app.post("/bus/", (req, res, next) => {
   const { type, age, capacity, run, producer } = req.body;
   console.log(req.body);
 
@@ -68,7 +78,7 @@ app.post("/bus/", (req, res) => {
 });
 
 // Handle bus PUT route
-app.put("/bus/:id", (req, res) => {
+app.put("/bus/:id", (req, res, next) => {
   const { id } = req.params;
   const query = `SELECT * FROM bus WHERE id=${id} LIMIT 1`;
   pool.query(query, (err, results, fields) => {
@@ -106,7 +116,7 @@ app.put("/bus/:id", (req, res) => {
 });
 
 // Handler bus DELETE route
-app.delete("/bus/:id", (req, res) => {
+app.delete("/bus/:id", (req, res, next) => {
   const { id } = req.params;
   const query = `DELETE FROM bus WHERE id=${id}`;
   pool.query(query, (err, results, fields) => {
