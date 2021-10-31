@@ -48,9 +48,9 @@ app.get("/bus/:id", (req, res) => {
 // Handle bus POST route
 app.post("/bus/", (req, res) => {
   const { type, age, capacity, run, producer } = req.body;
+  console.log(req.body);
 
-  //   const query = `INSERT INTO bus ( 'type', 'age', 'capacity', 'run', 'producer' ) VALUES ( '${type}', '${age}', '${capacity}', '${run}', '${producer}' )`;
-  const query = `INSERT INTO bus ( ${`type`}, ${`age`}, ${`capacity`}, ${`run`}, ${`producer`}) VALUES ( 'own', '4', '41', '30000', 'UA');`;
+  const query = `INSERT INTO bus ( ${`type`}, ${`age`}, ${`capacity`}, ${`run`}, ${`producer`}) VALUES ( '${type}', '${age}', '${capacity}', '${run}', '${producer}');`;
   pool.query(query, (err, results, fields) => {
     if (err) {
       const response = { data: null, message: err.message };
