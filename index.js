@@ -133,6 +133,143 @@ app.delete("/bus/:id", (req, res, next) => {
   });
 });
 
+// Handle data from sensor  GET route for specific sensor data
+app.get("/sensordata/:id", (req, res, next) => {
+  const id = req.params.id;
+  const query = `SELECT sensor_data FROM sensors_data WHERE sensor_id=${id}`;
+  pool.query(query, (err, results, fields) => {
+    if (err) {
+      const response = { data: null, message: err.message };
+      res.send(response);
+    }
+
+    const bus_data = results[0];
+    const response = {
+      data: bus_data,
+      message: `Bus  ${bus_data.id} data successfully retrieved.`,
+    };
+    res.status(200).send(response);
+  });
+});
+
+// Handle data from sensor POST route
+app.post("/sensordata/", (req, res, next) => {
+  const { sensor_id, sensor_type, sensor_name, api_key, sensor_data } =
+    req.body;
+  console.log(req.body);
+  if (sensor_id === 0 && api_key !== "1st_sensor_key") {
+    const response = {
+      data: null,
+      message: "Api key doesn't match, device not verified",
+    };
+    res.send(response);
+    return;
+  }
+  if (sensor_id === 1 && api_key !== "2nd_sensor_key") {
+    const response = {
+      data: null,
+      message: "Api key doesn't match, device not verified",
+    };
+    res.send(response);
+    return;
+  }
+
+  const query = `INSERT INTO sensors_data ( ${`sensor_id`}, ${`sensor_type`}, ${`sensor_name`}, ${`api_key`}, ${`sensor_data`}) VALUES ( '${sensor_id}', '${sensor_type}', '${sensor_name}', '${api_key}', '${sensor_data}');`;
+  pool.query(query, (err, results, fields) => {
+    if (err) {
+      const response = { data: null, message: err.message };
+      res.send(response);
+    }
+
+    const { insertId } = results;
+    const bus_data = {
+      sensor_id: insertId,
+      sensor_id,
+      sensor_type,
+      sensor_name,
+      api_key,
+      sensor_data,
+    };
+    const response = {
+      data: bus_data,
+      message: `Bus data ${insertId} successfully added.  `,
+    };
+    res.status(201).send(response);
+  });
+});
+
+// Handle bus PUT route
+app.put("/sensordata/:sensor_id", (req, res, next) => {
+  const { sensor_id } = req.params;
+  const query = `SELECT * FROM sensors_data WHERE sensor_id=${sensor_id} LIMIT 1`;
+  pool.query(query, (err, results, fields) => {
+    if (err) {
+      const response = { data: null, message: err.message };
+      res.send(response);
+    }
+
+    const { sensor_id, sensor_type, sensor_name, api_key, sensor_data } = {
+      ...results[0],
+      ...req.body,
+    };
+    if (sensor_id === 0 && api_key !== "1st_sensor_key") {
+      const response = {
+        data: null,
+        message: "Api key doesn't match, device not verified",
+      };
+      res.send(response);
+      return;
+    }
+    if (sensor_id === 1 && api_key !== "2nd_sensor_key") {
+      const response = {
+        data: null,
+        message: "Api key doesn't match, device not verified",
+      };
+      res.send(response);
+      return;
+    }
+    const query = `UPDATE sensors_data SET sensor_type='${sensor_type}', sensor_name='${sensor_name}', api_key='${api_key}', sensor_data='${sensor_data}' WHERE sensor_id='${sensor_id}'`;
+    pool.query(query, (err, results, fields) => {
+      if (err) {
+        const response = { data: null, message: err.message };
+        res.send(response);
+      }
+
+      const bus_data = {
+        sensor_id: insertId,
+        sensor_id,
+        sensor_type,
+        sensor_name,
+        api_key,
+        sensor_data,
+      };
+      const response = {
+        data: bus_data,
+        message: `Bus data ${sensor_id} is successfully updated.`,
+      };
+      res.send(response);
+    });
+  });
+});
+
+// Handler bus DELETE route
+app.delete("/sensordata/:sensor_id", (req, res, next) => {
+  const { sensor_id } = req.params;
+  const query = `DELETE FROM sensors_data WHERE sensor_id=${sensor_id}`;
+  pool.query(query, (err, results, fields) => {
+    if (err) {
+      const response = { data: null, message: err.message };
+      res.send(response);
+    }
+
+    const response = {
+      data: null,
+      message: `Bus data with id: ${sensor_id} successfully deleted.`,
+    };
+    res.send(response);
+  });
+});
+
 // Handle in-valid route
 app.all("*", function (req, res) {
   const response = { data: null, message: "Route not found!!" };

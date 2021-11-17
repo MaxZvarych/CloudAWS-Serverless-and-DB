@@ -4,28 +4,52 @@ provider:
   name: aws
   runtime: nodejs14.x
   stage: dev
-  region: us-west-2
+  region: us-east-2
   memorySize: 512
 
 functions:
   busFunc:
     handler: index.handler
     events:
+      # - httpApi: '*'
+
       - http:
           path: bus
           method: get
+          cors: true
       - http:
           path: bus/{id}
           method: get
+          cors: true
       - http:
           path: bus
           method: post
+          cors: true
       - http:
           path: bus/{id}
           method: put
+          cors: true
       - http:
           path: bus/{id}
           method: delete
+          cors: true
+
+      - http:
+          path: sensordata/{id}
+          method: get
+          cors: true
+      - http:
+          path: sensordata
+          method: post
+          cors: true
+      - http:
+          path: sensordata/{id}
+          method: put
+          cors: true
+      - http:
+          path: sensordata/{id}
+          method: delete
+          cors: true
       
       # - http:
       #     path: route
