@@ -15,7 +15,8 @@ async function simulateBusFuel() {
   const data = {
     sensor_id: 1,
     sensor_type: "http",
-    sensor_name: "busfuel",
+    time_stamp: Math.floor(Date.now() / 1000),
+    sensor_name: "busenginepower",
     api_key: "2nd_sensor_key",
     sensor_data: Math.floor(Math.random() * 70 + 10) * 100,
   };

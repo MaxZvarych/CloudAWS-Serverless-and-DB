@@ -1,0 +1,41 @@
+// Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: MIT-0
+var awsIot = require("aws-iot-device-sdk");
+
+var device = awsIot.device({
+  keyPath:
+    "c81056042c26aacb011766396cc470eb774a2a79679a060c8ab7fcfae0cb42f3-private.pem.key",
+  certPath:
+    "c81056042c26aacb011766396cc470eb774a2a79679a060c8ab7fcfae0cb42f3-certificate.pem.crt",
+  caPath: "AmazonRootCA1.pem",
+  clientId: "IoT-bus-device2",
+  host: "akw8nvajq9jhy-ats.iot.us-east-2.amazonaws.com",
+});
+
+//
+// Device is an instance returned by mqtt.Client(), see mqtt.js for full
+// documentation.
+//
+device.on("connect", function () {
+  console.log("connect");
+  device.subscribe("myBusDevice2");
+  setInterval(
+    () =>
+      device.publish(
+        "myBusDevice2",
+        JSON.stringify({
+          sensor_id: 2,
+          time_stamp: Math.floor(Date.now() / 1000),
+          sensor_type: "mqtt",
+          sensor_name: "busenginetemperature",
+          api_key: "",
+          sensor_data: Math.floor(Math.random() * 100),
+        })
+      ),
+    1000
+  );
+});
+
+device.on("message", function (topic, payload) {
+  console.log("message", topic, payload.toString());
+});
