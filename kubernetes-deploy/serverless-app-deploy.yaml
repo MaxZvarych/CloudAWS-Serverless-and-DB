@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: serverless-app-deployment
+  namespace: serverless-app
+  labels:
+    app: serverless-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: serverless-app
+  template:
+    metadata:
+      labels:
+        app: serverless-app
+    spec: 
+      containers:
+      - name: serverless-app
+        image: masyanya/serverlessimage
+        ports:
+          - containerPort: 3000 

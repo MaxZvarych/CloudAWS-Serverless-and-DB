@@ -1,0 +1,10 @@
+FROM node:14-alpine3.10
+RUN apk update
+RUN apk add curl vim
+WORKDIR /usr/src/app
+COPY package*.json ./ 
+RUN npm install
+COPY device_1 ./device_1
+EXPOSE 3000
+WORKDIR /usr/src/app/device_1
+CMD [ "node", "publisher_mqtt_device1"]

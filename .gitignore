@@ -47,6 +47,8 @@ build/Release
 
 # Dependency directories
 node_modules/
+create_test_data/device_1
+create_test_data/device_2
 jspm_packages/
 
 # Snowpack dependency directory (https://snowpack.dev/)

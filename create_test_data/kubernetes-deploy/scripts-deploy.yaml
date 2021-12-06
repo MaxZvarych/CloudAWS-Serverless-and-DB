@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scripts-app-deployment
+  namespace: scripts-app
+  labels:
+    app: scripts-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scripts-app
+  template:
+    metadata:
+      labels:
+        app: scripts-app
+    spec: 
+      containers:
+      - name: sensor0-app
+        image: masyanya/simulate_sensor_0
+        ports:
+          - containerPort: 3000 
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scripts-app-deployment1
+  namespace: scripts-app
+  labels:
+    app: scripts-app1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scripts-app1
+  template:
+    metadata:
+      labels:
+        app: scripts-app1
+    spec: 
+      containers:
+      - name: sensor1-app
+        image: masyanya/simulate_sensor_1
+        ports:
+          - containerPort: 3000 
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scripts-app-deployment2
+  namespace: scripts-app
+  labels:
+    app: scripts-app2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scripts-app2
+  template:
+    metadata:
+      labels:
+        app: scripts-app2
+    spec: 
+      containers:
+      - name: sensor2-app
+        image: masyanya/simulate_sensor_2
+        ports:
+          - containerPort: 3000 
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scripts-app-deployment3
+  namespace: scripts-app
+  labels:
+    app: scripts-app3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: scripts-app3
+  template:
+    metadata:
+      labels:
+        app: scripts-app3
+    spec: 
+      containers:
+      - name: sensor3-app
+        image: masyanya/simulate_sensor_3
+        ports:
+          - containerPort: 3000 
+ 
+

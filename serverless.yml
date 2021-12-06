@@ -6,9 +6,18 @@ provider:
   stage: dev
   region: us-east-2
   memorySize: 512
+  # ecr:
+  #   # In this section you can define images that will be built locally and uploaded to ECR
+  #   images:
+  #     appimage:
+  #       path: ./
 
 functions:
   busFunc:
+    # image:
+    #   name: appimage
+      # entryPoint:
+      #   - '/lambda-entrypoint.sh'
     handler: index.handler
     events:
       # - httpApi: '*'
@@ -35,6 +44,10 @@ functions:
           cors: true
 
       - http:
+          path: sensordata
+          method: get
+          cors: true
+      - http:
           path: sensordata/{id}
           method: get
           cors: true
@@ -50,32 +63,12 @@ functions:
           path: sensordata/{id}
           method: delete
           cors: true
-      
-      # - http:
-      #     path: route
-      #     method: get
-      # - http:
-      #     path: route/{id}
-      #     method: get
-      # - http:
-      #     path: route
-      #     method: post
-      # - http:
-      #     path: route/{id}
-      #     method: delete
-      
-      # - http:
-      #     path: stop
-      #     method: get
-      # - http:
-      #     path: stop/{id}
-      #     method: get
-      # - http:
-      #     path: stop
-      #     method: post
-      # - http:
-      #     path: stop/{id}
-      #     method: delete
+        
+       
 
 plugins:
   - serverless-offline
+
+custom:
+  serverless-offline:
+    httpPort: 3000

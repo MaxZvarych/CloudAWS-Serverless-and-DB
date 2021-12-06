@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: serverless-app-service
+  namespace: serverless-app
+  # labels:
+  #   app: react-app
+spec:
+  type: LoadBalancer
+  selector:
+    app: serverless-app
+  ports:
+    # - protocol: TCP
+    - name: serverless-app
+      port: 3300
+      targetPort: 3000
+      # nodePort: 30008

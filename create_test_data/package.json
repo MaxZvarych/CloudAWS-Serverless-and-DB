@@ -1,0 +1,15 @@
+{
+  "name": "create_test_data",
+  "version": "1.0.0",
+  "description": "npm project for sensors",
+  "main": "simulate_bus_engine_power.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-iot-device-sdk": "^2.2.11",
+    "axios": "^0.24.0"
+  }
+}

@@ -1,0 +1,76 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: scripts-app-service
+  namespace: scripts-app
+  # labels:
+  #   app: react-app
+spec:
+  type: LoadBalancer
+  selector:
+    app: scripts-app
+  ports:
+    # - protocol: TCP
+    - name: scripts-app
+      port: 3400
+      targetPort: 3000
+      # nodePort: 30008
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: scripts-app-service1
+  namespace: scripts-app
+  # labels:
+  #   app: react-app
+spec:
+  type: LoadBalancer
+  selector:
+    app: scripts-app1
+  ports:
+    # - protocol: TCP
+    - name: scripts-app1
+      port: 3400
+      targetPort: 3000
+      # nodePort: 30008
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: scripts-app-service2
+  namespace: scripts-app
+  # labels:
+  #   app: react-app
+spec:
+  type: LoadBalancer
+  selector:
+    app: scripts-app2
+  ports:
+    # - protocol: TCP
+    - name: scripts-app2
+      port: 3400
+      targetPort: 3000
+      # nodePort: 30008
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: scripts-app-service3
+  namespace: scripts-app
+  # labels:
+  #   app: react-app
+spec:
+  type: LoadBalancer
+  selector:
+    app: scripts-app3
+  ports:
+    # - protocol: TCP
+    - name: scripts-app3
+      port: 3400
+      targetPort: 3000
+      # nodePort: 30008
+
+---

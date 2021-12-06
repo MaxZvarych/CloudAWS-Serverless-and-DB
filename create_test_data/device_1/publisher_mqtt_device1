@@ -32,7 +32,7 @@ device.on("connect", function () {
           sensor_data: Math.floor(Math.random() * 55),
         })
       ),
-    1000
+    10000
   );
 });
 

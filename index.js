@@ -133,10 +133,28 @@ app.delete("/bus/:id", (req, res, next) => {
   });
 });
 
+// Handle data from all sensors  GET route for all sensors data
+app.get("/sensordata/", (req, res, next) => {
+  const query = "SELECT * FROM sensors_data";
+  pool.query(query, (err, results, fields) => {
+    if (err) {
+      const response = { data: null, message: err.message };
+      res.send(response);
+    }
+
+    const sensors = [...results];
+    const response = {
+      data: sensors,
+      message: "All sensors successfully retrieved.",
+    };
+    res.send(response);
+  });
+});
+
 // Handle data from sensor  GET route for specific sensor data
 app.get("/sensordata/:id", (req, res, next) => {
   const id = req.params.id;
-  const query = `SELECT sensor_data FROM sensors_data WHERE sensor_id=${id}`;
+  const query = `SELECT * FROM sensors_data WHERE sensor_id=${id}`;
   pool.query(query, (err, results, fields) => {
     if (err) {
       const response = { data: null, message: err.message };
@@ -174,7 +192,7 @@ app.post("/sensordata/", (req, res, next) => {
     return;
   }
 
-  const query = `INSERT INTO sensors_data ( ${`sensor_id`}, ${`sensor_type`}, ${`sensor_name`}, ${`api_key`}, ${`sensor_data`}) VALUES ( '${sensor_id}', '${sensor_type}', '${sensor_name}', '${api_key}', '${sensor_data}');`;
+  const query = `INSERT INTO sensors_data ( ${`sensor_id`}, ${`sensor_type`}, ${`sensor_name`},${`time_stamp`}, ${`api_key`}, ${`sensor_data`}) VALUES ( '${sensor_id}', '${sensor_type}', '${sensor_name}', '${time_stamp}', '${api_key}', '${sensor_data}');`;
   pool.query(query, (err, results, fields) => {
     if (err) {
       const response = { data: null, message: err.message };
@@ -208,7 +226,14 @@ app.put("/sensordata/:sensor_id", (req, res, next) => {
       res.send(response);
     }
 
-    const { sensor_id, sensor_type, sensor_name, api_key, sensor_data } = {
+    const {
+      sensor_id,
+      sensor_type,
+      sensor_name,
+      api_key,
+      sensor_data,
+      time_stamp,
+    } = {
       ...results[0],
       ...req.body,
     };
@@ -228,7 +253,7 @@ app.put("/sensordata/:sensor_id", (req, res, next) => {
       res.send(response);
       return;
     }
-    const query = `UPDATE sensors_data SET sensor_type='${sensor_type}', sensor_name='${sensor_name}', api_key='${api_key}', sensor_data='${sensor_data}' WHERE sensor_id='${sensor_id}'`;
+    const query = `UPDATE sensors_data SET sensor_type='${sensor_type}', sensor_name='${sensor_name}', time_stamp='${time_stamp}', api_key='${api_key}', sensor_data='${sensor_data}' WHERE sensor_id='${sensor_id}'`;
     pool.query(query, (err, results, fields) => {
       if (err) {
         const response = { data: null, message: err.message };
@@ -236,10 +261,10 @@ app.put("/sensordata/:sensor_id", (req, res, next) => {
       }
 
       const bus_data = {
-        sensor_id: insertId,
         sensor_id,
         sensor_type,
         sensor_name,
+        time_stamp,
         api_key,
         sensor_data,
       };
